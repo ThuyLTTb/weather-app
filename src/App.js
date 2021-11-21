@@ -9,33 +9,25 @@ const api = {
   base: "https://api.openweathermap.org/data/2.5/"
 }
 
+
 function App() {
   const [query, setQuery] = useState('');
   const [weather, setWeather] = useState({});
-  const [weatherdata,  setweatherdata]= useState(null);
-  const getweather = async (base , query, token) =>{
-    let url = base + 'weather?q='+query +'&units=metric&APPID=' +token;
-    const res = await axios.get(
-      url,
-
-    );
-    return res;
-
-
+  // const [weatherdata,  setweatherdata]= useState(null);
+  const getWeather = async (base , query, token) =>{
+    // console.log("base",base)
+    // console.log("query", query)
+    // console.log("token",token)
+    const res = await axios.get(`${base}weather?q=${query}&units=metric&APPID=${token}`);
+    console.log("getWeather:res",res)
+    const result = res.data
+    console.log("getWeather:result",result)
+    setWeather(result);
+    setQuery('');
   }
   const search = evt => {
     if (evt.key === "Enter") {
-      fetch(`${api.base}weather?q=${query}&units=metric&APPID=${api.token}`)
-        .then(res => res.json())
-        .then(result => {
-          setWeather(result);
-          setQuery('');
-
-        });
-        console.log(getweather(api.base, query, api.token));
-        
-        
-        
+        getWeather(api.base,query, api.token);
 
     }
   }
